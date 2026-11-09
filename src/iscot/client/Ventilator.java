@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -31,6 +32,7 @@ public class Ventilator {
 	 */
 	public static void main(String[] args) throws NumberFormatException, UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
 		if(args.length!=3) {
+
 			System.err.println("Invalid arguments!");
 		}
 		else {
