@@ -10,4 +10,6 @@ public class HumiditySensorEvent extends SensorEvent {
     }
 
     public double getHumidity() { return humidity; }
+    public void action() {
+    }
 }
