@@ -17,6 +17,7 @@ import iscot.client.gui.LightIcon;
 import iscot.client.gui.VentilatorIcon;
 import iscot.enums.Areas;
 import iscot.enums.Type;
+import iscot.events.HumiditySensorEvent;
 
 public class Ventilator {
 
@@ -41,21 +42,23 @@ public class Ventilator {
 			// TODO register with the server
 			Areas area=Areas.valueOf(args[2]);
 			
-			JFrame janela = new JFrame("Ventilador em "+area);
-			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			JFrame janela1 = new JFrame("Ventilador em "+area);
+			janela1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		
 			
 			// Criar os componentes gráficos
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
+
+			
 			VentilatorIcon ventilator = new VentilatorIcon();
 			painel.add(ventilator,BorderLayout.CENTER);
-			janela.setContentPane(painel);
-			janela.setLocation(600, 400);
-			janela.setMinimumSize(janela.getSize());
-			janela.pack();
-			janela.setVisible(true);
+			janela1.setContentPane(painel);
+			janela1.setLocation(600, 400);
+			janela1.setMinimumSize(janela1.getSize());
+			janela1.pack();
+			janela1.setVisible(true);
 			
 			Thread.sleep(5000);
 			ventilator.setAtivo(true);
