@@ -16,8 +16,11 @@ import javax.swing.JPanel;
 import iscot.client.gui.IrrigationIcon;
 import iscot.client.gui.LightIcon;
 import iscot.client.gui.VentilatorIcon;
+import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;
 import iscot.enums.Type;
+import iscot.events.AreaIrrigationOrderEvent;
+import iscot.events.AreaTemperatureOrderEvent;
 
 public class Irrigation {
 
@@ -50,6 +53,7 @@ public class Irrigation {
 			// Criar os componentes gráficos
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
+			AreaIrrigationOrderEvent irrigationOrderEvent = new AreaIrrigationOrderEvent(area, "Irrigator_1",false, 1, 5);
 			IrrigationIcon irrigation = new IrrigationIcon();
 			painel.add(irrigation,BorderLayout.CENTER);
 			janela.setContentPane(painel);
@@ -58,7 +62,8 @@ public class Irrigation {
 			janela.pack();
 			janela.setVisible(true);
 			
-			Thread.sleep(5000);
+			Thread.sleep(3000);
+			System.out.println("Irrigação ligada" + irrigationOrderEvent);
 			irrigation.setAtivo(true);
 
 			// TODO: receive and handle messages from server

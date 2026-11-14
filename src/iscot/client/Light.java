@@ -49,12 +49,9 @@ public class Light {
 			
 			// Criar os componentes gráficos
 			JPanel painel=new JPanel();
-			painel.setLayout(new BorderLayout());
-			LightIcon lightIcon = new LightIcon();
-			lightIcon.setLigada(false); // Começa desligada
-			Thread.sleep(3000); // Espera 3 segundos
+			painel.setLayout(new BorderLayout());// Espera 3 segundos
 			    
-			     
+			AreaLightingOrderEvent lightingOrderEvent = new AreaLightingOrderEvent(area, "Light_1", false, 1);
 			LightIcon light = new LightIcon();
 			painel.add(light,BorderLayout.CENTER);
 			janela.setContentPane(painel);
@@ -63,7 +60,8 @@ public class Light {
 			janela.pack();
 			janela.setVisible(true);
 			
-			Thread.sleep(5000);
+			Thread.sleep(3000);
+			System.out.println("Luz ligada" + lightingOrderEvent);
 			light.setAtivo(true);
 
 			// TODO: receive and handle messages from server

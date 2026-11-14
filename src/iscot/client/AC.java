@@ -16,8 +16,10 @@ import javax.swing.JPanel;
 import iscot.client.gui.ACIcon;
 import iscot.client.gui.LightIcon;
 import iscot.client.gui.VentilatorIcon;
+import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;
 import iscot.enums.Type;
+import iscot.events.AreaTemperatureOrderEvent;
 
 public class AC {
 
@@ -50,6 +52,8 @@ public class AC {
 			// Criar os componentes gráficos
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
+
+			AreaTemperatureOrderEvent ACOrderEvent = new AreaTemperatureOrderEvent(area, "AC_1", AirConditioningMode.Desligado, 10);
 			ACIcon ac = new ACIcon();
 			painel.add(ac,BorderLayout.CENTER);
 			janela.setContentPane(painel);
@@ -58,7 +62,8 @@ public class AC {
 			janela.pack();
 			janela.setVisible(true);
 
-			Thread.sleep(5000);
+			Thread.sleep(3000);
+			System.out.println("AC ligado"+ ACOrderEvent);
 			ac.setAtivo(true);
 
 			// TODO: receive and handle messages from server

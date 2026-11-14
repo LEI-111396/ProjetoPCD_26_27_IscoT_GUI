@@ -17,6 +17,7 @@ import iscot.client.gui.LightIcon;
 import iscot.client.gui.VentilatorIcon;
 import iscot.enums.Areas;
 import iscot.enums.Type;
+import iscot.events.AreaVentilationOrderEvent;
 import iscot.events.HumiditySensorEvent;
 
 public class Ventilator {
@@ -51,7 +52,7 @@ public class Ventilator {
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
 
-			
+			AreaVentilationOrderEvent ventilationOrderEvent = new AreaVentilationOrderEvent(area, "Ventilator_1", false);
 			VentilatorIcon ventilator = new VentilatorIcon();
 			painel.add(ventilator,BorderLayout.CENTER);
 			janela1.setContentPane(painel);
@@ -60,7 +61,8 @@ public class Ventilator {
 			janela1.pack();
 			janela1.setVisible(true);
 			
-			Thread.sleep(5000);
+			Thread.sleep(3000);
+			System.out.println("Ventilador ligado" + ventilationOrderEvent);
 			ventilator.setAtivo(true);
 
 			// TODO: receive and handle messages from server
