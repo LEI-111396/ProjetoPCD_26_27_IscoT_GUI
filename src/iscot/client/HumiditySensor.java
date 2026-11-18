@@ -49,9 +49,9 @@ public class HumiditySensor {
 				    valor -> {
 				    	
 				        HumiditySensorEvent evento = new HumiditySensorEvent(area, deviceId, valor);
-						AreaIrrigationOrderEvent irrigationOrderEvent = new AreaIrrigationOrderEvent(area, "Irrigacao_1", false, 1, 10);
+						AreaIrrigationOrderEvent irrigationOrderEvent = new AreaIrrigationOrderEvent(area, "Irrigacao_1", false, 10);
 				        if (valor < 50) {
-				        	AreaIrrigationOrderEvent irrigation = new  AreaIrrigationOrderEvent(area, "Irrigacao_1", true, 1, 10);
+				        	AreaIrrigationOrderEvent irrigation = new  AreaIrrigationOrderEvent(area, "Irrigacao_1", true, 10);
 				        	irrigationIcon.setAtiva(irrigation.isActive());
 							System.out.println("[ATUADOR] " + irrigation + " - Humidade baixa, ligar rega");
 				        } else {

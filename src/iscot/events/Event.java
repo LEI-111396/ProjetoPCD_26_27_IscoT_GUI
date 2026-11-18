@@ -3,7 +3,9 @@ package iscot.events;
 import iscot.enums.Areas;
 import iscot.enums.Type;
 
-public abstract class Event {
+import java.io.Serializable;
+
+public abstract class Event implements Serializable {
     private final Type type;
     private final Areas area;
     private final String deviceId;

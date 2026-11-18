@@ -51,7 +51,7 @@ public class GroundMoisterSensor {
                     valor -> {
                         GroundMoistureSensorEvent evento = new GroundMoistureSensorEvent(area, deviceId, valor);
                         System.out.println("[SENSOR] " + evento);
-                        AreaIrrigationOrderEvent ordemRega = new AreaIrrigationOrderEvent(area, "Rega_1", false, 1, 0);
+                        AreaIrrigationOrderEvent ordemRega = new AreaIrrigationOrderEvent(area, "Rega_1", false, 0);
                         if (valor < 30) {
 
                             irrigationIcon.setAtiva(true);

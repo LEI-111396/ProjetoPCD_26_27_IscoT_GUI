@@ -53,7 +53,7 @@ public class Irrigation {
 			// Criar os componentes gráficos
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
-			AreaIrrigationOrderEvent irrigationOrderEvent = new AreaIrrigationOrderEvent(area, "Irrigator_1",false, 1, 5);
+			AreaIrrigationOrderEvent irrigationOrderEvent = new AreaIrrigationOrderEvent(area, "Irrigator_1",false, 5);
 			IrrigationIcon irrigation = new IrrigationIcon();
 			painel.add(irrigation,BorderLayout.CENTER);
 			janela.setContentPane(painel);
