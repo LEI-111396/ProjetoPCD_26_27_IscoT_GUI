@@ -57,6 +57,7 @@ public class DealWithClient extends Thread {
             while (true) {
                 Event event = (Event) in.readObject();
                 System.out.println("[SERVIDOR] Evento recebido de ID " + clientId + ": " + event);
+                server.routeEvent(event);
             }
 
         } catch (EOFException | SocketException e) {
@@ -66,6 +67,14 @@ public class DealWithClient extends Thread {
         } finally {
             server.removeClient(this);
             closeResources();
+        }
+    }
+    public synchronized void sendEvent(Event event) {
+        try {
+            out.writeObject(event);
+            out.flush();
+        } catch (IOException e) {
+            System.err.println("[SERVIDOR] Erro ao enviar evento para " + deviceId + ": " + e.getMessage());
         }
     }
 

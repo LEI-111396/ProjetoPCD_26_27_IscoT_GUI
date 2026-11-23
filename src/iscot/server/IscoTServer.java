@@ -1,5 +1,7 @@
 package iscot.server;
 
+import iscot.events.Event;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -45,6 +47,34 @@ public class IscoTServer {
         if (clients.remove(client)) {
             System.out.println("[SERVIDOR] Cliente desligado -> ID: " + client.getClientId()
                     + " (" + client.getDeviceId() + "). Total ligados: " + clients.size());
+        }
+    }
+    public synchronized void routeEvent(Event event) {
+        // 1. Se existir algum Decisor ligado, encaminha o SensorEvent para ele
+        if (event instanceof iscot.events.SensorEvent) {
+            boolean hasDecider = false;
+            for (DealWithClient client : clients) {
+                if (client.getClientType() == iscot.enums.Type.DECIDER && client.getArea() == event.getArea()) {
+                    client.sendEvent(event);
+                    hasDecider = true;
+                }
+            }
+            // Fallback para teste direto caso ainda não tenhas criado o cliente Decisor:
+            if (!hasDecider && event instanceof iscot.events.LightSensorEvent lightEvent) {
+                boolean ligar = lightEvent.getLight() < 50;
+                int intensidade = ligar ? 100 : 0;
+                iscot.events.AreaLightingOrderEvent order =
+                        new iscot.events.AreaLightingOrderEvent(lightEvent.getArea(), "ServerAuto", ligar, intensidade);
+                routeEvent(order); // Reenvia como ordem para os atuadores da área
+            }
+        }
+        // 2. Se for uma ordem de alto nível (ex: AreaLightingOrderEvent), envia aos Atuadores da mesma área
+        else if (event instanceof iscot.events.HighLevelOrderEvent) {
+            for (DealWithClient client : clients) {
+                if (client.getClientType() == iscot.enums.Type.ACTUATOR && client.getArea() == event.getArea()) {
+                    client.sendEvent(event);
+                }
+            }
         }
     }
 
