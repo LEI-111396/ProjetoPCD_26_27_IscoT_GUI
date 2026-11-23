@@ -1,6 +1,9 @@
 package iscot.client;
 
 import java.awt.BorderLayout;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,17 +31,22 @@ public class HumiditySensor {
 			System.err.println("Invalid arguments!");
 		}
 		else {
-			// TODO connect to the server
-
-			// TODO register with the server
 			String host = args[0];
 			int port = Integer.parseInt(args[1]);
 			Areas area=Areas.valueOf(args[2]);
 			String deviceId = args[3];
+			try {
+				// Ligar ao servidor
+				Socket socket = new Socket(host, port);
+				ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+				// Registar com o servidor
+				out.writeObject(new RegistrationEvent(Type.SENSOR, area, deviceId));
+				out.flush();
 
 
-			JFrame janela = new JFrame("Humidade em "+area);
-			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				JFrame janela = new JFrame("Humidade em "+area);
+				janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 			
 			// Criar os componentes gráficos
@@ -59,8 +67,11 @@ public class HumiditySensor {
 			janela.setMinimumSize(janela.getSize());
 			janela.pack();
 			janela.setVisible(true);
-			
-			
+
+			}
+			catch (Exception e) {
+				System.err.println("Erro ao conectar ao servidor: " + e.getMessage());
+			}
 		}
 	}
 
