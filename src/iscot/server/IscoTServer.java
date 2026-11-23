@@ -49,10 +49,6 @@ public class IscoTServer {
     }
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.err.println("Argumentos inválidos! Uso: <PORT>");
-            return;
-        }
         int port = Integer.parseInt(args[0]);
         new IscoTServer(port).startServing();
     }

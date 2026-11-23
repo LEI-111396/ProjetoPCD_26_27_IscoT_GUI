@@ -1,6 +1,10 @@
 package iscot.client;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,43 +30,46 @@ public class LightSensor {
             System.err.println("Invalid arguments!");
         }
         else {
-            // TODO connect to the server
-
-            // TODO register with the server
             String host = args[0];
             int port = Integer.parseInt(args[1]);
             Areas area=Areas.valueOf(args[2]);
             String deviceId = args[3];
+            try {
+                // Ligar ao servidor
+                Socket socket = new Socket(host, port);
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                // Registar com o servidor
+                out.writeObject(new RegistrationEvent(Type.SENSOR, area, deviceId));
+                out.flush();
 
 
-            JFrame janela = new JFrame("Luz em "+area);
-            janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                JFrame janela = new JFrame("Luz em "+area);
+                janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                // Criar os componentes gráficos
+                JPanel painel=new JPanel(new BorderLayout());
+                SensorControl sensorControl= new SensorControl( "☀", "Luz - "+area, "%",
+                        0, 100, 1, 50,
+                        valor -> {
+                            try {
+                                LightSensorEvent evento = new LightSensorEvent(area, deviceId, valor);
+                                out.writeObject(evento);
+                                out.flush();
+                                System.out.println("[SENSOR] Enviado para servidor: " + evento + " (" + valor + "%)");
+                            } catch (IOException e) {
+                                System.err.println("[SENSOR] Erro ao enviar evento: " + e.getMessage());
+                            }
+                        });
+                painel.add(sensorControl,BorderLayout.CENTER);
+                janela.setContentPane(painel);
+                janela.setLocation(200, 400);
+                janela.pack();
+                janela.setVisible(true);
 
-
-            // Criar os componentes gráficos
-            JPanel painel=new JPanel();
-            painel.setLayout(new BorderLayout());
-            //teste
-
-
-            SensorControl sensorControl= new SensorControl( "☀", "Luz - "+area, "%",
-                    0, 100, 1, 50,
-                    valor -> {
-
-                        LightSensorEvent evento = new LightSensorEvent(area, deviceId, valor);
-
-                        // TODO handle change in sensor
-                        System.out.println("[SENSOR] " + evento);
-                        System.out.println("Mudou para:" + valor);
-                    });
-            painel.add(sensorControl,BorderLayout.CENTER);
-            janela.setContentPane(painel);
-            janela.setLocation(600, 400);
-            janela.setMinimumSize(janela.getSize());
-            janela.pack();
-            janela.setVisible(true);
-
-
+            }
+            catch (Exception e) {
+                    System.err.println("Erro ao conectar ao servidor: " + e.getMessage());
+                }
         }
     }
 
