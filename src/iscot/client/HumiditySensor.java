@@ -42,27 +42,16 @@ public class HumiditySensor {
 			// Criar os componentes gráficos
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
-			IrrigationIcon irrigationIcon = new IrrigationIcon();
-
 			SensorControl sensorControl= new SensorControl( "☀", "Humidade - "+area, "%",
 				    0, 100, 1, 50,
 				    valor -> {
 				    	
 				        HumiditySensorEvent evento = new HumiditySensorEvent(area, deviceId, valor);
-						AreaIrrigationOrderEvent irrigationOrderEvent = new AreaIrrigationOrderEvent(area, "Irrigacao_1", false, 10);
-				        if (valor < 50) {
-				        	AreaIrrigationOrderEvent irrigation = new  AreaIrrigationOrderEvent(area, "Irrigacao_1", true, 10);
-				        	irrigationIcon.setAtiva(irrigation.isActive());
-							System.out.println("[ATUADOR] " + irrigation + " - Humidade baixa, ligar rega");
-				        } else {
-							irrigationIcon.setAtiva(false);
-							System.out.println("[ATUADOR] " + irrigationOrderEvent + " - Humidade suficiente, desligar rega");
-				        }
 				    	// TODO handle change in sensor
+						System.out.println("[SENSOR] " + evento);
 				    	System.out.println("Mudou para:"+valor);
 				    });
 			painel.add(sensorControl,BorderLayout.CENTER);
-			painel.add(irrigationIcon,BorderLayout.EAST);
 			janela.setContentPane(painel);
 			janela.setLocation(600, 400);
 			janela.setMinimumSize(janela.getSize());

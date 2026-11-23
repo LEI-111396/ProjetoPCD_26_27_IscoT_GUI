@@ -42,32 +42,18 @@ public class GroundMoisterSensor {
             // Criar os componentes gráficos
             JPanel painel=new JPanel();
             painel.setLayout(new BorderLayout());
-            //teste
-            IrrigationIcon irrigationIcon = new IrrigationIcon();
-            irrigationIcon.setAtiva(false);
+
             SensorControl sensorControl = new SensorControl(
                     "🌱", "Humidade do Solo - " + area, "%",
                     0, 100, 1, 50,
                     valor -> {
                         GroundMoistureSensorEvent evento = new GroundMoistureSensorEvent(area, deviceId, valor);
-                        System.out.println("[SENSOR] " + evento);
-                        AreaIrrigationOrderEvent ordemRega = new AreaIrrigationOrderEvent(area, "Rega_1", false, 0);
-                        if (valor < 30) {
 
-                            irrigationIcon.setAtiva(true);
-                            irrigationIcon.setDuracao(10);
-                            System.out.println("[ATUADOR] " + ordemRega + " - Solo seco, ligar rega");
-                        } else {
-
-                            irrigationIcon.setAtiva(false);
-                            System.out.println("[ATUADOR] " + ordemRega + " - Solo húmido, desligar rega");
-                        }
                         // TODO handle change in sensor
                         System.out.println("[SENSOR] " + evento);
                         System.out.println("Mudou para:"+valor);
                     });
             painel.add(sensorControl,BorderLayout.CENTER);
-            painel.add(irrigationIcon, BorderLayout.EAST);
             janela.setContentPane(painel);
             janela.setLocation(600, 400);
             janela.setMinimumSize(janela.getSize());

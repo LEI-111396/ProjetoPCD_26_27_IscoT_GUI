@@ -41,30 +41,19 @@ public class LightSensor {
             JPanel painel=new JPanel();
             painel.setLayout(new BorderLayout());
             //teste
-            LightIcon lightIcon = new LightIcon();
-            lightIcon.setLigada(false);
+
+
             SensorControl sensorControl= new SensorControl( "☀", "Luz - "+area, "%",
                     0, 100, 1, 50,
                     valor -> {
 
                         LightSensorEvent evento = new LightSensorEvent(area, deviceId, valor);
-                        AreaLightingOrderEvent eventoLight = new  AreaLightingOrderEvent(area, "Luz_1", false, 100);
-                        if (valor < 50) {
-                            lightIcon.setLigada(true); // tem de receber true
-                            lightIcon.setIntensidade(100);
-                            System.out.println("[ATUADOR] " + eventoLight + " - Luz insuficiente, ligar luz");
-                        } else {
 
-                            lightIcon.setLigada(false);
-                            lightIcon.setIntensidade(0);
-                            System.out.println("[ATUADOR] " + eventoLight + " - Luz suficiente, desligar luz");
-                        }
                         // TODO handle change in sensor
                         System.out.println("[SENSOR] " + evento);
                         System.out.println("Mudou para:"+valor);
                     });
             painel.add(sensorControl,BorderLayout.CENTER);
-            painel.add(lightIcon, BorderLayout.EAST);
             janela.setContentPane(painel);
             janela.setLocation(600, 400);
             janela.setMinimumSize(janela.getSize());
