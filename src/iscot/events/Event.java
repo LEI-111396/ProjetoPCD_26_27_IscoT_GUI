@@ -27,4 +27,12 @@ public abstract class Event implements Serializable {
     public String getDeviceId() {
         return deviceId;
     }
+    protected String commonFields() {
+        return "area=" + area + ", deviceId=" + deviceId + ", type=" + type;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [" + commonFields() + "]";
+    }
 }

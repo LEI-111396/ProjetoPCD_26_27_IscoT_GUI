@@ -33,7 +33,7 @@ public class Ventilator {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws NumberFormatException, UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
-		if(args.length!=3) {
+		if(args.length!=4) {
 
 			System.err.println("Invalid arguments!");
 		}
@@ -41,8 +41,11 @@ public class Ventilator {
 			// TODO connect to server
 			
 			// TODO register with the server
+			String host = args[0];
+			int port = Integer.parseInt(args[1]);
 			Areas area=Areas.valueOf(args[2]);
-			
+			String deviceId = args[3];
+
 			JFrame janela1 = new JFrame("Ventilador em "+area);
 			janela1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -52,7 +55,7 @@ public class Ventilator {
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
 
-			AreaVentilationOrderEvent ventilationOrderEvent = new AreaVentilationOrderEvent(area, "Ventilator_1", false);
+			AreaVentilationOrderEvent ventilationOrderEvent = new AreaVentilationOrderEvent(area, deviceId, false);
 			VentilatorIcon ventilator = new VentilatorIcon();
 			painel.add(ventilator,BorderLayout.CENTER);
 			janela1.setContentPane(painel);

@@ -11,4 +11,8 @@ public class LightSensorEvent extends SensorEvent {
 
     public double getLight() { return light; }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [light=" + light + ", " + commonFields() + "]";
+    }
 }

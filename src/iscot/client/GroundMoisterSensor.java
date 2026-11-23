@@ -24,15 +24,17 @@ public class GroundMoisterSensor {
      * @throws InterruptedException
      */
     public static void main(String[] args) throws NumberFormatException, InterruptedException {
-        if(args.length!=3) {
+        if(args.length!=4) {
             System.err.println("Invalid arguments!");
         }
         else {
             // TODO connect to the server
 
             // TODO register with the server
+            String host = args[0];
+            int port = Integer.parseInt(args[1]);
             Areas area=Areas.valueOf(args[2]);
-            String deviceId = args[1];
+            String deviceId = args[3];
 
 
             JFrame janela = new JFrame("Humidade do Solo em "+area);

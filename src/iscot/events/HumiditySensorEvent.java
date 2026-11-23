@@ -10,6 +10,8 @@ public class HumiditySensorEvent extends SensorEvent {
     }
 
     public double getHumidity() { return humidity; }
-    public void action() {
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [humidity=" + humidity + ", " + commonFields() + "]";
     }
 }

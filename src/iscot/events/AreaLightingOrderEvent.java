@@ -13,4 +13,8 @@ public class AreaLightingOrderEvent extends HighLevelOrderEvent {
 
     public boolean getState() { return state; }
     public int getIntensity() { return intensity; }
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [state=" + state + ", intensity=" + intensity + ", " + commonFields() + "]";
+    }
 }

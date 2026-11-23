@@ -14,5 +14,8 @@ public class AreaTemperatureOrderEvent extends HighLevelOrderEvent {
 
     public AirConditioningMode getMode() { return mode; }
     public double getTemperature() { return temperature; }
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [mode=" + mode + ", temperature=" + temperature + ", " + commonFields() + "]";
+    }
 }

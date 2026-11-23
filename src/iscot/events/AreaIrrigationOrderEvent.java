@@ -13,5 +13,8 @@ public class AreaIrrigationOrderEvent extends HighLevelOrderEvent {
 
     public boolean isActive() { return active; }
     public int getDuration() { return duration; }
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [active=" + active + ", duration=" + duration + ", " + commonFields() + "]";
+    }
 }

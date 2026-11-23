@@ -10,5 +10,9 @@ public class AreaVentilationOrderEvent extends HighLevelOrderEvent {
     }
 
     public boolean getState() { return state; }
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [state=" + state + ", " + commonFields() + "]";
+    }
 
 }

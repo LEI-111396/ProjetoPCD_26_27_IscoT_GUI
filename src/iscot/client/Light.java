@@ -33,7 +33,7 @@ public class Light {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws NumberFormatException, UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
-		if(args.length!=3) {
+		if(args.length!=4) {
 
 			System.err.println("Invalid arguments!");
 		}
@@ -41,8 +41,11 @@ public class Light {
 			// TODO connect to server
 			
 			// TODO register with the server
+			String host = args[0];
+			int port = Integer.parseInt(args[1]);
 			Areas area=Areas.valueOf(args[2]);
-			
+			String deviceId = args[3];
+
 			JFrame janela = new JFrame("Luz em " + area);
 			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -51,7 +54,7 @@ public class Light {
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());// Espera 3 segundos
 			    
-			AreaLightingOrderEvent lightingOrderEvent = new AreaLightingOrderEvent(area, "Light_1", false, 1);
+			AreaLightingOrderEvent lightingOrderEvent = new AreaLightingOrderEvent(area, deviceId, false, 1);
 			LightIcon light = new LightIcon();
 			painel.add(light,BorderLayout.CENTER);
 			janela.setContentPane(painel);

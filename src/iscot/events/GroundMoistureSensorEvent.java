@@ -10,4 +10,10 @@ public class GroundMoistureSensorEvent extends SensorEvent {
     }
 
     public double getMoisture() { return moisture; }
+    @Override
+
+    public String toString() {
+        return getClass().getSimpleName() + " [moisture=" + moisture + ", " + commonFields() + "]";
+    }
+
 }

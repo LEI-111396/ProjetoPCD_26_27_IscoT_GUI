@@ -10,5 +10,8 @@ public class TemperatureSensorEvent extends SensorEvent {
     }
 
     public double getTemperature() { return temperature; }
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [temperature=" + temperature + ", " + commonFields() + "]";
+    }
 }

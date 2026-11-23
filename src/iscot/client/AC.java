@@ -34,7 +34,7 @@ public class AC {
 	 * @throws ClassNotFoundException
 	 */
 	public static void main(String[] args) throws NumberFormatException, UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
-		if(args.length!=3) {
+		if(args.length!=4) {
 
 			System.err.println("Invalid arguments!");
 		}
@@ -42,9 +42,12 @@ public class AC {
 			// TODO connect to server
 
 			// TODO register with the server
+			String host = args[0];
+			int port = Integer.parseInt(args[1]);
 			Areas area=Areas.valueOf(args[2]);
+			String deviceId = args[3];
 
-			JFrame janela = new JFrame("AC em "+area);
+			JFrame janela = new JFrame("AC em " + area);
 			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 
@@ -53,7 +56,7 @@ public class AC {
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
 
-			AreaTemperatureOrderEvent ACOrderEvent = new AreaTemperatureOrderEvent(area, "AC_1", AirConditioningMode.Desligado, 10);
+			AreaTemperatureOrderEvent ACOrderEvent = new AreaTemperatureOrderEvent(area, deviceId, AirConditioningMode.Desligado, 10);
 			ACIcon ac = new ACIcon();
 			painel.add(ac,BorderLayout.CENTER);
 			janela.setContentPane(painel);
