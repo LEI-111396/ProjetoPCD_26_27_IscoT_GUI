@@ -57,9 +57,15 @@ public class TemperatureSensor {
             SensorControl sensorControl= new SensorControl( "☀", "Temperatura - "+area, "%",
                     0, 100, 1, 50,
                     valor -> {
-                        TemperatureSensorEvent evento = new TemperatureSensorEvent(area, deviceId, valor);
-                        System.out.println("[SENSOR] " + evento);
-                        System.out.println("Mudou para:"+valor);
+                try {
+                    TemperatureSensorEvent evento = new TemperatureSensorEvent(area, deviceId, valor);
+                    out.writeObject(evento);
+                    out.flush();
+                    System.out.println("[SENSOR] " + evento);
+                    System.out.println("Mudou para:" + valor);
+                } catch (Exception e) {
+                    System.err.println("[SENSOR] Erro ao enviar evento: " + e.getMessage());
+                }
                     });
             painel.add(sensorControl,BorderLayout.CENTER);
             janela.setContentPane(painel);

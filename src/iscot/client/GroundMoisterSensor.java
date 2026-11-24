@@ -58,11 +58,15 @@ public class GroundMoisterSensor {
                         "🌱", "Humidade do Solo - " + area, "%",
                         0, 100, 1, 50,
                         valor -> {
-                            GroundMoistureSensorEvent evento = new GroundMoistureSensorEvent(area, deviceId, valor);
-
-                            // TODO handle change in sensor
-                            System.out.println("[SENSOR] " + evento);
-                            System.out.println("Mudou para:" + valor);
+                            try {
+                                GroundMoistureSensorEvent evento = new GroundMoistureSensorEvent(area, deviceId, valor);
+                                out.writeObject(evento);
+                                out.flush();
+                                System.out.println("[SENSOR] " + evento);
+                                System.out.println("Mudou para:" + valor);
+                            } catch (Exception e) {
+                                System.err.println("[SENSOR] Erro ao enviar evento: " + e.getMessage());
+                            }
                         });
                 painel.add(sensorControl, BorderLayout.CENTER);
                 janela.setContentPane(painel);

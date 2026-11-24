@@ -55,16 +55,20 @@ public class HumiditySensor {
 			SensorControl sensorControl= new SensorControl( "☀", "Humidade - "+area, "%",
 				    0, 100, 1, 50,
 				    valor -> {
-				    	
-				        HumiditySensorEvent evento = new HumiditySensorEvent(area, deviceId, valor);
-				    	// TODO handle change in sensor
+					try{
+						HumiditySensorEvent evento = new HumiditySensorEvent(area, deviceId, valor);
+						out.writeObject(evento);
+						out.flush();
 						System.out.println("[SENSOR] " + evento);
-				    	System.out.println("Mudou para:"+valor);
+						System.out.println("Mudou para:"+valor);
+					}
+					catch (Exception e) {
+						System.err.println("Erro ao conectar ao servidor: " + e.getMessage());
+					}
 				    });
 			painel.add(sensorControl,BorderLayout.CENTER);
 			janela.setContentPane(painel);
-			janela.setLocation(600, 400);
-			janela.setMinimumSize(janela.getSize());
+			janela.setLocation(200, 400);
 			janela.pack();
 			janela.setVisible(true);
 

@@ -43,11 +43,11 @@ public class LightSensor {
                 out.writeObject(new RegistrationEvent(Type.SENSOR, area, deviceId));
                 out.flush();
 
-
+                // Criar os componentes gráficos
                 JFrame janela = new JFrame("Luz em "+area);
                 janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                // Criar os componentes gráficos
                 JPanel painel=new JPanel(new BorderLayout());
+
                 SensorControl sensorControl= new SensorControl( "☀", "Luz - "+area, "%",
                         0, 100, 1, 50,
                         valor -> {
