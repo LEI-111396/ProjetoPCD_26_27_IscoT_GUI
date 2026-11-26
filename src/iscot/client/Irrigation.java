@@ -50,42 +50,49 @@ public class Irrigation {
 			try {
 				// Ligar ao servidor
 				Socket socket = new Socket(host, port);
-				ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				out.flush();
+				ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
 				// Registar com o servidor
 				out.writeObject(new RegistrationEvent(Type.ACTUATOR, area, deviceId));
 				out.flush();
 
-			JFrame janela = new JFrame("Irrigação em "+area);
-			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				JFrame janela = new JFrame("Irrigação em "+area);
+				janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 			// Criar os componentes gráficos
-			JPanel painel=new JPanel(new BorderLayout());
+				JPanel painel=new JPanel(new BorderLayout());
 
-			IrrigationIcon irrigation = new IrrigationIcon();
-			irrigation.setAtiva(false);
-			painel.add(irrigation,BorderLayout.CENTER);
+				IrrigationIcon irrigation = new IrrigationIcon();
+				irrigation.setAtiva(false);
+				painel.add(irrigation,BorderLayout.CENTER);
+
+				janela.setContentPane(painel);
+				janela.setLocation(600, 400);
+				janela.pack();
+				janela.setVisible(true);
+
 				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
 				while (true) {
 					Object obj = in.readObject();
 					if (obj instanceof AreaIrrigationOrderEvent order && order.getArea() == area) {
 						boolean ativar = order.isActive();
-						//int zona = order.getZona();
+						int zona = irrigation.getZona();
 						int duracao = order.getDuration();
 
 						SwingUtilities.invokeLater(() -> {
 							irrigation.setAtiva(ativar);
 							if (ativar) {
-								//irrigation.setZona(zona);
+								irrigation.setZona(zona);
 								irrigation.setDuracao(duracao);
 							}
 						});
 
-						//String estadoTexto = ativar
-							//	? "Rega ligada (Zona " + zona + " - " + duracao + " min)"
-							//	: "Rega desligada";
-						//System.out.println("[" + deviceId + "] " + estadoTexto + " " + LocalTime.now().format(fmt));
+						String estadoTexto = ativar
+								? "Rega ligada (Zona " + zona + " - " + duracao + " min)"
+								: "Rega desligada";
+						System.out.println("[" + deviceId + "] " + estadoTexto + " " + LocalTime.now().format(fmt));
 					}
 				}
 			} catch (Exception e) {

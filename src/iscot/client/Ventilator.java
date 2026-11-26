@@ -7,11 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import iscot.client.gui.LightIcon;
 import iscot.client.gui.VentilatorIcon;
@@ -33,44 +33,58 @@ public class Ventilator {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws NumberFormatException, UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
-		if(args.length!=4) {
+		if (args.length != 4) {
 
 			System.err.println("Invalid arguments!");
-		}
-		else {
-			// TODO connect to server
-			
-			// TODO register with the server
+		} else {
 			String host = args[0];
 			int port = Integer.parseInt(args[1]);
-			Areas area=Areas.valueOf(args[2]);
+			Areas area = Areas.valueOf(args[2]);
 			String deviceId = args[3];
 
-			JFrame janela1 = new JFrame("Ventilador em "+area);
-			janela1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			try {
 
-		
-			
-			// Criar os componentes gráficos
-			JPanel painel=new JPanel();
-			painel.setLayout(new BorderLayout());
+				//Ligar ao servidor
+				Socket socket = new Socket(host, port);
+				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+				out.flush();
+				ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-			AreaVentilationOrderEvent ventilationOrderEvent = new AreaVentilationOrderEvent(area, deviceId, false);
-			VentilatorIcon ventilator = new VentilatorIcon();
-			painel.add(ventilator,BorderLayout.CENTER);
-			janela1.setContentPane(painel);
-			janela1.setLocation(600, 400);
-			janela1.setMinimumSize(janela1.getSize());
-			janela1.pack();
-			janela1.setVisible(true);
-			
-			Thread.sleep(3000);
-			System.out.println("Ventilador ligado" + ventilationOrderEvent);
-			ventilator.setAtivo(true);
+				//Registar no servidor
+				out.writeObject(new iscot.events.RegistrationEvent(Type.ACTUATOR, area, deviceId));
+				out.flush();
+				//Parte Grafica
+				JFrame janela1 = new JFrame("Ventilador em " + area);
+				janela1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-			// TODO: receive and handle messages from server
-			
-			// TODO: for first phase: create an appropriate event hardcoded locally and change the GUI accordingly
+				// Criar os componentes gráficos
+				JPanel painel = new JPanel(new BorderLayout());
+				VentilatorIcon ventilator = new VentilatorIcon();
+				ventilator.setLigado(false);
+				painel.add(ventilator, BorderLayout.CENTER);
+
+				janela1.setContentPane(painel);
+				janela1.setLocation(600, 400);
+				janela1.setMinimumSize(janela1.getSize());
+				janela1.pack();
+				janela1.setVisible(true);
+
+				// Loop para receber eventos do servidor
+				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
+				while (true) {
+					Object obj = in.readObject();
+					if (obj instanceof AreaVentilationOrderEvent order && order.getArea() == area) {
+						boolean ligar = order.getState();
+
+						SwingUtilities.invokeLater(() -> ventilator.setLigado(ligar));
+
+						String estadoTexto = ligar ? "Ventilador ligado" : "Ventilador desligado";
+						System.out.println("[" + deviceId + "] " + estadoTexto + " " + LocalTime.now().format(fmt));
+					}
+				}
+			} catch (Exception e) {
+				System.err.println("Erro ao conectar ao servidor: " + e.getMessage());
+			}
 		}
 	}
 }

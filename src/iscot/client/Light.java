@@ -1,7 +1,6 @@
 package iscot.client;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,15 +8,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import iscot.client.gui.LightIcon;
-import iscot.client.gui.VentilatorIcon;
 import iscot.enums.Areas;
 import iscot.enums.Type;
 import iscot.events.AreaLightingOrderEvent;
@@ -78,8 +74,6 @@ public class Light {
                             light.setLigada(ligar);
                             light.setIntensidade(intensidade);
                         });
-
-
                         String estadoTexto = ligar ? "Lâmpada ligada (" + intensidade + "%)" : "Lâmpada desligada";
                         System.out.println("[" + deviceId + "] " + estadoTexto + " " + LocalTime.now().format(fmt));
 
