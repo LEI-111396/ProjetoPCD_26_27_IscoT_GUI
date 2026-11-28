@@ -38,12 +38,12 @@ public class LightSensor {
             try {
                 // Ligar ao servidor
                 Socket socket = new Socket(host, port);
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 // Registar com o servidor
                 out.writeObject(new RegistrationEvent(Type.SENSOR, area, deviceId));
                 out.flush();
-
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 // Criar os componentes gráficos
                 JFrame janela = new JFrame("Luz em "+area);
                 janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -56,6 +56,7 @@ public class LightSensor {
                                 LightSensorEvent evento = new LightSensorEvent(area, deviceId, valor);
                                 out.writeObject(evento);
                                 out.flush();
+                                out.reset();
                                 System.out.println("[SENSOR] Enviado para servidor: " + evento + " (" + valor + "%)");
                             } catch (IOException e) {
                                 System.err.println("[SENSOR] Erro ao enviar evento: " + e.getMessage());

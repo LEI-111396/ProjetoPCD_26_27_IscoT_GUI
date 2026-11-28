@@ -43,11 +43,12 @@ public class Light {
             try {
                 // Ligar ao servidor
                 Socket socket = new Socket(host, port);
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 // Registar com o servidor
                 out.writeObject(new RegistrationEvent(Type.ACTUATOR, area, deviceId));
                 out.flush();
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
                 JFrame janela = new JFrame("Luz em " + area);
                 janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

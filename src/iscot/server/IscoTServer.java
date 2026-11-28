@@ -55,16 +55,9 @@ public class IscoTServer {
       if(event instanceof iscot.events.SensorEvent) {
           boolean hasDecider = false;
           for (DealWithClient client : clients) {
-              if (client.getClientType() == iscot.enums.Type.DWC && client.getArea() == event.getArea()) {
+              if (client.getClientType() == iscot.enums.Type.DECIDER && client.getArea() == event.getArea()) {
                   client.sendEvent(event);
               }
-          }
-          if (!hasDecider && event instanceof LightSensorEvent lightEvent) {
-              boolean ligar = lightEvent.getLight() < 50;
-              int intensidade = ligar ? 100 : 0;
-              AreaLightingOrderEvent order =
-                      new AreaLightingOrderEvent(lightEvent.getArea(), "ServerAuto", ligar, intensidade);
-              routeEvent(order); // Reenvia como ordem para os atuadores da área
           }
       }
       else if (event instanceof iscot.events.HighLevelOrderEvent) {

@@ -33,6 +33,7 @@ public class DealWithClient extends Thread {
         try {
             // Ordem no servidor: primeiro OUT, depois IN
             out = new ObjectOutputStream(socket.getOutputStream());
+            out.flush();
             in = new ObjectInputStream(socket.getInputStream());
 
             // 1. Ler a mensagem inicial de registo
@@ -42,12 +43,11 @@ public class DealWithClient extends Thread {
                 return;
             }
 
-            // 2. Validar o tipo de cliente (ignorar DWC conforme enum)
-            if (reg.getType() == null || reg.getType() == Type.DWC) {
+            // 2. Validar o tipo de cliente
+            if (reg.getType() != Type.SENSOR && reg.getType() != Type.DECIDER && reg.getType() != Type.ACTUATOR) {
                 System.err.println("[SERVIDOR] Ligação recusada: tipo de cliente inválido (" + reg.getType() + ").");
                 return;
             }
-
             this.clientType = reg.getType();
             this.area = reg.getArea();
             this.deviceId = reg.getDeviceId();
@@ -74,6 +74,7 @@ public class DealWithClient extends Thread {
         try {
             out.writeObject(event);
             out.flush();
+            out.reset();
         } catch (IOException e) {
             System.err.println("[SERVIDOR] Erro ao enviar evento para " + deviceId + ": " + e.getMessage());
         }
