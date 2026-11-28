@@ -1,5 +1,6 @@
-package iscot.events;
+package iscot.events.Sensores;
 import iscot.enums.Areas;
+import iscot.events.SensorEvent;
 
 public class GroundMoistureSensorEvent extends SensorEvent {
     private final double moisture;

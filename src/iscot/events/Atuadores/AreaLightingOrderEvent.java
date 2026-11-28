@@ -1,5 +1,6 @@
-package iscot.events;
+package iscot.events.Atuadores;
 import iscot.enums.Areas;
+import iscot.events.HighLevelOrderEvent;
 
 public class AreaLightingOrderEvent extends HighLevelOrderEvent {
     private final boolean state;

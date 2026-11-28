@@ -1,4 +1,4 @@
-package iscot.client;
+package iscot.client.Sensores;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
@@ -8,11 +8,12 @@ import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import iscot.client.gui.LightIcon;
+
 import iscot.client.gui.SensorControl;
 import iscot.enums.Areas;
 import iscot.enums.Type;
 import iscot.events.*;
+import iscot.events.Sensores.LightSensorEvent;
 
 public class LightSensor {
 

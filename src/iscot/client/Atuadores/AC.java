@@ -1,7 +1,6 @@
-package iscot.client;
+package iscot.client.Atuadores;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,18 +8,14 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 import javax.swing.*;
 
 import iscot.client.gui.ACIcon;
-import iscot.client.gui.LightIcon;
-import iscot.client.gui.VentilatorIcon;
 import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;
 import iscot.enums.Type;
-import iscot.events.AreaLightingOrderEvent;
-import iscot.events.AreaTemperatureOrderEvent;
+import iscot.events.Atuadores.AreaTemperatureOrderEvent;
 import iscot.events.RegistrationEvent;
 
 public class AC {

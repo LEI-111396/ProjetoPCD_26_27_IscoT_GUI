@@ -1,4 +1,4 @@
-package iscot.client;
+package iscot.client.Sensores;
 
 import java.awt.BorderLayout;
 import java.io.ObjectInputStream;
@@ -8,14 +8,11 @@ import java.net.Socket;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import iscot.client.gui.ACIcon;
-import iscot.client.gui.LightIcon;
 import iscot.client.gui.SensorControl;
-import iscot.client.gui.VentilatorIcon;
-import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;
 import iscot.enums.Type;
 import iscot.events.*;
+import iscot.events.Sensores.TemperatureSensorEvent;
 
 public class TemperatureSensor {
 

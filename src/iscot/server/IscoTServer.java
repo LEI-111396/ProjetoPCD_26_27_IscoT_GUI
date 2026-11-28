@@ -1,6 +1,8 @@
 package iscot.server;
 
+import iscot.events.Atuadores.AreaLightingOrderEvent;
 import iscot.events.Event;
+import iscot.events.Sensores.LightSensorEvent;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -57,11 +59,11 @@ public class IscoTServer {
                   client.sendEvent(event);
               }
           }
-          if (!hasDecider && event instanceof iscot.events.LightSensorEvent lightEvent) {
+          if (!hasDecider && event instanceof LightSensorEvent lightEvent) {
               boolean ligar = lightEvent.getLight() < 50;
               int intensidade = ligar ? 100 : 0;
-              iscot.events.AreaLightingOrderEvent order =
-                      new iscot.events.AreaLightingOrderEvent(lightEvent.getArea(), "ServerAuto", ligar, intensidade);
+              AreaLightingOrderEvent order =
+                      new AreaLightingOrderEvent(lightEvent.getArea(), "ServerAuto", ligar, intensidade);
               routeEvent(order); // Reenvia como ordem para os atuadores da área
           }
       }

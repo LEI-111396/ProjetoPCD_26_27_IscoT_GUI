@@ -1,6 +1,7 @@
-package iscot.events;
+package iscot.events.Atuadores;
 import iscot.enums.Areas;
 import iscot.enums.AirConditioningMode;
+import iscot.events.HighLevelOrderEvent;
 
 public class AreaTemperatureOrderEvent extends HighLevelOrderEvent {
     private final AirConditioningMode mode;

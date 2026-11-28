@@ -1,4 +1,4 @@
-package iscot.client;
+package iscot.client.Atuadores;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
 import iscot.client.gui.LightIcon;
 import iscot.enums.Areas;
 import iscot.enums.Type;
-import iscot.events.AreaLightingOrderEvent;
+import iscot.events.Atuadores.AreaLightingOrderEvent;
 import iscot.events.RegistrationEvent;
 
 public class Light {
